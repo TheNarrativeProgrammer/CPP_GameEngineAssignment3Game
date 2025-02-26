@@ -15,6 +15,7 @@ class PhysicsComponent : public Component, public std::enable_shared_from_this<P
 {
 	friend Actor;
 	friend PhysicsEngine;
+	
 public:
 
 	PhysicsComponent() = delete;
@@ -26,6 +27,9 @@ public:
 	virtual void CollisionResolution(); // move back later
 	virtual bool IsCollisionDetectedWithCircle(std::weak_ptr<CircleColliderComponent> otherComponent) = 0;
 	virtual bool IsCollisionDetectedWithBox(std::weak_ptr<BoxColliderComponent> otherComponent) = 0;
+
+	void SetVelocity(const exVector2 inVelocity);
+	exVector2 GetVelocity() const;
 
 protected:
 
@@ -46,8 +50,7 @@ protected:
 	//virtual bool IsCollisionDetectedWithBox(std::weak_ptr<BoxColliderComponent> otherComponent) const = 0;
 #pragma endregion
 
-	void SetVelocity(const exVector2 inVelocity);
-	exVector2 GetVelocity() const;
+	
 
 private:
 

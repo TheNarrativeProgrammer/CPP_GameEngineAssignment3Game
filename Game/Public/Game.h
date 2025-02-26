@@ -10,6 +10,9 @@
 #include "Engine/Public/EngineTypes.h"
 #include "Game/Public/GameCore/GameCore.h"
 #include "Game/Public/StateMachine/StateMachine.h"
+#include <iomanip>
+#include <sstream> //for std::fixed and std::setprecision
+
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 class Actor;
@@ -33,6 +36,10 @@ public:
 
 	virtual void				Run( float fDeltaT );
 
+	virtual void				UpdateTimer(float fDeltaT);
+
+	float						mTimeElasped;
+
 private:
 
 	exEngineInterface*			mEngine;
@@ -44,10 +51,17 @@ private:
 
 	exVector2					mTextPosition;
 
-	std::shared_ptr<Actor>		Character1;
+	std::shared_ptr<Actor>		RightBoarderGameBoard;
+	std::shared_ptr<Actor>		LeftBoarderGameBoard;
+	std::shared_ptr<Actor>		TopBoarderGameBoard;
+	std::shared_ptr<Actor>		BottomBoarderGameBoard;
 	std::shared_ptr<Actor>		Character2;
 	std::shared_ptr<Ship>		mShip;
 
 	std::shared_ptr<StateMachine<Actor>> mStateMachine;
+
+	
+
+	
 
 };

@@ -16,12 +16,14 @@ public:
 
 	void OnShipCollided(std::weak_ptr<Actor> HitActor, const exVector2& HitPosition);
 
+	exVector2 mShipInitialVelocity;
+
 private:
 
 	String mShipName;
 	exColor mShipColor;
 	exVector2 mShipStartingPosition;
-	exVector2 mShipInitialVelocity;
+	
 
 
 };

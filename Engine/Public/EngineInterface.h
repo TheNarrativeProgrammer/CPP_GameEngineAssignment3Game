@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Engine/Public/EngineTypes.h"
+#include "string"
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
@@ -52,6 +53,8 @@ public:
 
 								// draw text with a given loaded font
 	virtual void				DrawText( int nFontID, const exVector2& v2Position, const char* szText, const exColor& color, int nLayer ) = 0;
+
+	//virtual void				DrawText(int nFontID, const exVector2& v2Position, String, const exColor& color, int nLayer) = 0;
 
 };
 

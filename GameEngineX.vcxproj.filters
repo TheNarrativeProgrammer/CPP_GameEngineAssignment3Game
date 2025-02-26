@@ -51,6 +51,9 @@
     <ClInclude Include="Game\Public\Components\BoxColliderComponent.h" />
     <ClInclude Include="Game\Public\StateMachine\StateMachine.h" />
     <ClInclude Include="Game\Public\StateMachine\State.h" />
+    <ClInclude Include="Game\Public\Singletons\InputState.h" />
+    <ClInclude Include="Game\Public\Singletons\InputManager.h" />
+    <ClInclude Include="Game\Public\Components\MovementComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Private\Main.cpp">
@@ -99,6 +102,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Private\StateMachine\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Private\Singletons\InputState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Private\Singletons\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Private\Components\MovementComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

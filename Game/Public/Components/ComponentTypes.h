@@ -8,4 +8,5 @@
 #include "Game/Public/Components/PhysicsComponent.h"
 #include "Game/Public/Components/CircleColliderComponent.h"
 #include "Game/Public/Components/BoxColliderComponent.h"
+#include "Game/Public/Components/MovementComponent.h"
 // TODO: ADD TEXT RENDERER

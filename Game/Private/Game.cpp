@@ -5,6 +5,7 @@
 // + Game.cpp
 // implementation of MyGame, an implementation of exGameInterface
 //
+#include <Windows.h>
 
 #include "Game/Public/Game.h"
 
@@ -16,6 +17,7 @@
 
 #include "Game/Public/Singletons/PhysicsEngine.h"
 #include "Game/Public/Actors/Ship.h"
+#include "Game/Public/Singletons/InputManager.h"
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 
@@ -29,13 +31,14 @@ MyGame::MyGame()
 	, mFontID( -1 )
 	, mUp( false )
 	, mDown( false )
+	, mTimeElasped(0.0f)
 {
 }
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 
-MyGame::~MyGame()
+MyGame::~MyGame() 
 {
 }
 
@@ -51,19 +54,38 @@ void MyGame::Initialize( exEngineInterface* pEngine )
 	mTextPosition.x = 50.0f;
 	mTextPosition.y = 50.0f;
 
-	Character1 = std::make_shared<Actor>();
-	Character1->AddComponentOfType<TransformComponent>(exVector2(450.0f, 300.0f));
-	Character1->AddComponentOfType<CircleRenderComponent>(100.0f);
-	Character1->AddComponentOfType<BoxColliderComponent>(100.0f, 100.0f, exVector2({-1.0f, 0.0f})); 
+	RightBoarderGameBoard = std::make_shared<Actor>();
+	RightBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(800.0f, 300.0f));
+	RightBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f,600.0f);
+	RightBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({0.0f, 0.0f}), true, false); 
+
+	LeftBoarderGameBoard = std::make_shared<Actor>();
+	LeftBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(0.0f, 300.0f));
+	LeftBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f, 600.0f);
+	LeftBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({ 0.0f, 0.0f }), true, false);
+
+	TopBoarderGameBoard = std::make_shared<Actor>();
+	TopBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(400.0f, 0.0f));
+	TopBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
+	TopBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
+
+	BottomBoarderGameBoard = std::make_shared<Actor>();
+	BottomBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(400.0f, 600.0f));
+	BottomBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
+	BottomBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
 		// box collider will collide with circle onship
 
-	Character2 = std::make_shared<Actor>();
-	Character2->AddComponentOfType<TransformComponent>(exVector2(25.0f, 25.0f)); // this effects the size of the box.
-	Character2->AddComponentOfType<BoxRenderComponent>(250.0f, 250.0f, exColor({0, 255, 125, 255}), exVector2(0.0f, 0.0f), 1);
-	Character2->AddComponentOfType<CircleColliderComponent>(50.0f, exVector2({ 0.0f, 0.0f }), true);
+	//Character2 = std::make_shared<Actor>();
+	//Character2->AddComponentOfType<TransformComponent>(exVector2(25.0f, 25.0f)); // this effects the size of the box.
+	//Character2->AddComponentOfType<BoxRenderComponent>(250.0f, 250.0f, exColor({0, 255, 125, 255}), exVector2(0.0f, 0.0f), 1);
+	//Character2->AddComponentOfType<CircleColliderComponent>(50.0f, exVector2({ 0.0f, 0.0f }), true);
 
-	mShip = std::make_shared<Ship>("Pirate Ship", exColor({255,100,100,255}), exVector2(100.0f, 300.0f), exVector2(0.4f, 0.0f));
+	mShip = std::make_shared<Ship>("Pirate Ship", exColor({255,100,100,255}), exVector2(200.0f, 300.0f), exVector2(0.0f, 0.0f));
+	mShip->AddComponentOfType<MovementComponent>(mShip->mShipInitialVelocity);
 	mShip->BeginPlay();
+
+	
+	
 
 	//mStateMachine = std::make_shared<StateMachine<Actor>>();
 	//mStateMachine->AddState("GamePlay", std::make_shared<Gameplay>()); // needs to match the state name exactly
@@ -114,6 +136,11 @@ void MyGame::OnEventsConsumed()
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 
+void MyGame::UpdateTimer(float fDeltaT)
+{
+	mTimeElasped += fDeltaT;
+}
+
 void MyGame::Run( float fDeltaT )
 {
 	if ( mUp )
@@ -152,7 +179,7 @@ void MyGame::Run( float fDeltaT )
 
 	r = 25.0f;
 
-	mEngine->DrawLineCircle( p1, r, c, 0 );
+	//mEngine->DrawLineCircle( p1, r, c, 0 );
 
 	p1.x = 100.0f;
 	p1.y = 100.0f;
@@ -164,7 +191,7 @@ void MyGame::Run( float fDeltaT )
 	c.mColor[1] = 0;
 	c.mColor[2] = 0;
 
-	mEngine->DrawBox( p1, p2, c, 1 );
+	//mEngine->DrawBox( p1, p2, c, 1 );
 
 	p1.x = 400.0f;
 	p1.y = 400.0f;
@@ -172,7 +199,7 @@ void MyGame::Run( float fDeltaT )
 	p2.x = 500.0f;
 	p2.y = 500.0f;
 
-	mEngine->DrawLineBox( p1, p2, c, 1 );
+	//mEngine->DrawLineBox( p1, p2, c, 1 );
 
 	p1.x = 400.0f;
 	p1.y = 400.0f;
@@ -181,12 +208,22 @@ void MyGame::Run( float fDeltaT )
 	c.mColor[1] = 0;
 	c.mColor[2] = 0;
 
-	mEngine->DrawCircle( p1, r, c, 2 );
+	//mEngine->DrawCircle( p1, r, c, 2 );
 
-	mEngine->DrawText( mFontID, mTextPosition, "Yung Hitro", c, 0 );
+	//mEngine->DrawText( mFontID, mTextPosition, "Yung Hitro", c, 0 );
+	UpdateTimer(fDeltaT);
+	std::ostringstream timeToOneDecimal;
+	timeToOneDecimal << std::fixed << std::setprecision(1) << mTimeElasped;
+	std::string currentTime = "Time :" + timeToOneDecimal.str();
+
+	mEngine->DrawText( mFontID, mTextPosition, currentTime.c_str(), c, 0);
 
 	//mStateMachine->Update(nullptr);
 
 	RENDER_ENGINE.Render(mEngine);
 	PHYSICS_ENGINE.PhysicsUpdate(fDeltaT);
+	
+	InputManager& inputManagerInstance = InputManager::GetInstance();
+	inputManagerInstance.Update();
+	inputManagerInstance.MoveShip(*mShip);
 }
