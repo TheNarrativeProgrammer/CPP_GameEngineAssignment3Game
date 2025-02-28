@@ -4,14 +4,12 @@
 
 
 
-RockSpawner::RockSpawner(String actorName, exColor actorColor, exVector2 startingPos, exVector2 velocity, float spawnInterval, float screenWidth, float screenHeight)
+RockSpawner::RockSpawner(String actorName, float spawnInterval, float screenWidth, float screenHeight)
     : mSpawnInterval(spawnInterval)
     , mScreenWidth(screenWidth)
     , mScreenHeight(screenHeight)
     , mSpawnTimer(0.0f)
     , mRockSpawnerName(actorName)
-    , mRockSpawnerStartingPosition(startingPos)
-    , mRockSpawnerColor(actorColor)
 {
 }
 
@@ -21,40 +19,52 @@ void RockSpawner::BeginPlay()
     mSpawnTimer = 0.0f;
 }
 
-void RockSpawner::TickSpawnRock(float deltaSeconds)
+void RockSpawner::Tick(float deltaSeconds)
 {
-    //Actor::Tick(deltaSeconds);
+    Actor::Tick(deltaSeconds);
 
     mSpawnTimer += deltaSeconds;
-    //SpawnRock();
     if (mSpawnTimer >= mSpawnInterval)
     {
-        //SpawnRock();
+        SpawnRock();
         mSpawnTimer = 0.0f;
     }
 }
 
-std::shared_ptr<Rock> RockSpawner::SpawnRock()
+void RockSpawner::TickSpawnRock(float deltaSeconds)
+{
+    //Actor::Tick(deltaSeconds);
+
+    //mSpawnTimer += deltaSeconds;
+    ////SpawnRock();
+    //if (mSpawnTimer >= mSpawnInterval)
+    //{
+    //    //SpawnRock();
+    //    mSpawnTimer = 0.0f;
+    //}
+}
+
+//std::shared_ptr<Rock> RockSpawner::SpawnRock()
+void RockSpawner::SpawnRock()
 {
     // Use static random generator for consistent randomness
-    //static std::random_device rd;
-    //static std::mt19937 gen(rd());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
 
     // Random position within screen boundaries
-    //std::uniform_real_distribution<float> xDist(0.0f, mScreenWidth);
-    //std::uniform_real_distribution<float> yDist(0.0f, mScreenHeight);
+    std::uniform_real_distribution<float> xDist(0.0f, mScreenWidth);
+    std::uniform_real_distribution<float> yDist(0.0f, mScreenHeight);
 
     //float xPos = xDist(gen);
-    float xPos = 100;
-    //float yPos = yDist(gen);
-    float yPos = 100;
+    float xPos = xDist(gen);
+    float yPos = yDist(gen);
 
     // Fixed velocity
-    float velocityX = 0.0f;
-    float velocityY = -0.1f;    //moving down
+    float velocityX = 0.10f;
+    float velocityY = 0.10f;    //moving down
 
     // Fixed radius
-    float rockRadius = 5.0f;
+    float rockRadius = 10.0f;
 
     // Brown color 
     exColor rockColor = {
@@ -65,9 +75,11 @@ std::shared_ptr<Rock> RockSpawner::SpawnRock()
     };
 
     // Create and initialize the rock
-   std::shared_ptr<Rock> newRock = std::make_shared<Rock>(rockColor, exVector2(xPos, yPos), exVector2(velocityX, velocityY), rockRadius);
+   //std::shared_ptr<Rock> newRock = std::make_shared<Rock>(rockColor, exVector2(xPos, yPos), exVector2(velocityX, velocityY), rockRadius);
+   auto newRock = std::make_shared<Rock>(rockColor, exVector2(xPos, yPos), exVector2(velocityX, velocityY), rockRadius);
    newRock->BeginPlay();
-   return newRock;
+   mRocks.push_back(newRock);
+   //return newRock;
     
 
 }

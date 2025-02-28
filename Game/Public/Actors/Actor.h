@@ -11,6 +11,8 @@ public:
 	// will be called when the Actor is added to the Game Starts
 	virtual void BeginPlay();
 
+	void SetCanEverTick(bool inCanEverTick);
+
 protected:
 
 	// parameters lower case, members prefix with m, static, prefix with s

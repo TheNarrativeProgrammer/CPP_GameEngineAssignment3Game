@@ -13,6 +13,11 @@ void Actor::BeginPlay()
 {
 }
 
+void Actor::SetCanEverTick(bool inCanEverTick)
+{
+	mCanEverTick = inCanEverTick;
+}
+
 void Actor::EndPlay()
 {
 }

@@ -86,11 +86,13 @@ void MyGame::Initialize( exEngineInterface* pEngine )
 	mShip = std::make_shared<Ship>("Pirate Ship", exColor({255,100,100,255}), exVector2(200.0f, 300.0f), exVector2(0.0f, 0.0f));
 	mShip->AddComponentOfType<MovementComponent>(mShip->mShipInitialVelocity);
 
-	/*mRockSpawner = std::make_shared<RockSpawner>("RockSpawner", exColor({ 255,100,100,255 }), exVector2(200.0f, 200.0f), exVector2(0.0f, 0.0f), 2, 600, 600);
-	mRockSpawner->AddComponentOfType<BoxRenderComponent>(10.0f, 20.0f);
-	mRockSpawner->AddComponentOfType<TransformComponent>(exVector2(25.0f, 25.0f));*/
+	mRockSpawner = std::make_shared<RockSpawner>("RockSpawner", 10, 800, 600);
+	mRockSpawner->AddComponentOfType<TransformComponent>(exVector2(600.0f, 400.0f));
+	mRockSpawner->AddComponentOfType<BoxRenderComponent>(50.0f, 50.f, exColor({ 255,100,100,255 }), exVector2(0.0f, 0.0f), 1);
+	mRockSpawner->SetCanEverTick(true);
+	
 
-	//mRockSpawner->BeginPlay();
+
 	mShip->BeginPlay();
 
 	
@@ -152,14 +154,14 @@ void MyGame::UpdateTimer(float fDeltaT)
 
 void MyGame::Run( float fDeltaT )
 {
-	if ( mUp )
+	/*if ( mUp )
 	{
 		mTextPosition.y -= 40.0f * fDeltaT;
 	}
 	else if ( mDown )
 	{
 		mTextPosition.y += 40.0f * fDeltaT;
-	}
+	}*/
 
 	//if (Character) ---- NOT NEEDED BECAUSE OF RENDER_ENGINE.
 	//{
@@ -251,4 +253,6 @@ void MyGame::Run( float fDeltaT )
 	InputManager& inputManagerInstance = InputManager::GetInstance();
 	inputManagerInstance.Update();
 	inputManagerInstance.MoveShip(*mShip);
+	mRockSpawner->Tick(fDeltaT);
+	
 }
