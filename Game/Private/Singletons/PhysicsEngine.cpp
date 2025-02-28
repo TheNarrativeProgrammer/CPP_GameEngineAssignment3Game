@@ -31,7 +31,17 @@ void PhysicsEngine::PhysicsUpdate(const float& deltaSeconds)
 				{
 					std::shared_ptr<PhysicsComponent> secondPhysicsCompToCheck = secondPhysicsCompIter->lock();
 
-					if (firstPhysicsCompToCheck->IsCollisionDetected(*secondPhysicsCompIter))
+					if (firstPhysicsCompToCheck->DoBothHaveCircleCollider(firstPhysicsCompToCheck->mOwner, secondPhysicsCompToCheck->mOwner)) // need to access a component from the child class of physics component.
+					{
+						if (firstPhysicsCompToCheck->IsCollisionDetected(*secondPhysicsCompIter))
+						{
+							firstPhysicsCompToCheck->BroadcastCollisionEvents(secondPhysicsCompToCheck->mOwner, exVector2(0.0f, 0.0f));
+							secondPhysicsCompToCheck->BroadcastCollisionEvents(firstPhysicsCompToCheck->mOwner, exVector2(0.0f, 0.0f));
+							firstPhysicsCompToCheck->CircleCollisionResolution(firstPhysicsCompToCheck->mOwner, secondPhysicsCompToCheck->mOwner); // handles collision states for both actors involved.
+						}
+					}
+
+					else if (firstPhysicsCompToCheck->IsCollisionDetected(*secondPhysicsCompIter))
 					{
 						//do not havce the code for hit location yet so we are just feeding a 0 vec2
 						firstPhysicsCompToCheck->BroadcastCollisionEvents(secondPhysicsCompToCheck->mOwner, exVector2(0.0f, 0.0f)); 

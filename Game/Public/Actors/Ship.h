@@ -17,7 +17,7 @@ public:
 	void OnShipCollided(std::weak_ptr<Actor> HitActor, const exVector2& HitPosition);
 
 	exVector2 mShipInitialVelocity;
-
+	bool isGameOver = false;
 private:
 
 	String mShipName;

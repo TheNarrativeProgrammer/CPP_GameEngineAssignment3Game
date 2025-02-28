@@ -54,6 +54,8 @@
     <ClInclude Include="Game\Public\Singletons\InputState.h" />
     <ClInclude Include="Game\Public\Singletons\InputManager.h" />
     <ClInclude Include="Game\Public\Components\MovementComponent.h" />
+    <ClInclude Include="Game\Public\Actors\Rock.h" />
+    <ClInclude Include="Game\Public\Actors\RockSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Private\Main.cpp">
@@ -111,6 +113,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Private\Components\MovementComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Private\Actors\Rock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Private\Actors\RockSpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

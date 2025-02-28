@@ -10,6 +10,10 @@
 #include "Engine/Public/EngineTypes.h"
 #include "Game/Public/GameCore/GameCore.h"
 #include "Game/Public/StateMachine/StateMachine.h"
+#include "Game/Public/Actors/Rock.h"
+#include "Game/Public/Actors/RockSpawner.h"
+
+
 #include <iomanip>
 #include <sstream> //for std::fixed and std::setprecision
 
@@ -50,18 +54,21 @@ private:
 	bool						mDown;
 
 	exVector2					mTextPosition;
+	exVector2					mGameOverPosition;
 
-	std::shared_ptr<Actor>		RightBoarderGameBoard;
-	std::shared_ptr<Actor>		LeftBoarderGameBoard;
-	std::shared_ptr<Actor>		TopBoarderGameBoard;
-	std::shared_ptr<Actor>		BottomBoarderGameBoard;
+	std::shared_ptr<Actor>		mRightBoarderGameBoard;
+	std::shared_ptr<Actor>		mLeftBoarderGameBoard;
+	std::shared_ptr<Actor>		mTopBoarderGameBoard;
+	std::shared_ptr<Actor>		mBottomBoarderGameBoard;
 	std::shared_ptr<Actor>		Character2;
 	std::shared_ptr<Ship>		mShip;
 
 	std::shared_ptr<StateMachine<Actor>> mStateMachine;
 
-	
+	std::shared_ptr<RockSpawner> mRockSpawner;
 
+	
+	
 	
 
 };

@@ -54,34 +54,43 @@ void MyGame::Initialize( exEngineInterface* pEngine )
 	mTextPosition.x = 50.0f;
 	mTextPosition.y = 50.0f;
 
-	RightBoarderGameBoard = std::make_shared<Actor>();
-	RightBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(800.0f, 300.0f));
-	RightBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f,600.0f);
-	RightBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({0.0f, 0.0f}), true, false); 
+	mGameOverPosition.x = 100.0f;
+	mGameOverPosition.y = 100.0f;
 
-	LeftBoarderGameBoard = std::make_shared<Actor>();
-	LeftBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(0.0f, 300.0f));
-	LeftBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f, 600.0f);
-	LeftBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({ 0.0f, 0.0f }), true, false);
+	mRightBoarderGameBoard = std::make_shared<Actor>();
+	mRightBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(790.0f, 300.0f));
+	mRightBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f,600.0f);
+	mRightBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({0.0f, 0.0f}), true, false); 
 
-	TopBoarderGameBoard = std::make_shared<Actor>();
-	TopBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(400.0f, 0.0f));
-	TopBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
-	TopBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
+	mLeftBoarderGameBoard = std::make_shared<Actor>();
+	mLeftBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(0.0f, 300.0f));
+	mLeftBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(10.0f, 600.0f);
+	mLeftBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(10.0f, 600.0f, exVector2({ 0.0f, 0.0f }), true, false);
 
-	BottomBoarderGameBoard = std::make_shared<Actor>();
-	BottomBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(400.0f, 600.0f));
-	BottomBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
-	BottomBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
+	mTopBoarderGameBoard = std::make_shared<Actor>();
+	mTopBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(390.0f, 10.0f));
+	mTopBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
+	mTopBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
+
+	mBottomBoarderGameBoard = std::make_shared<Actor>();
+	mBottomBoarderGameBoard->AddComponentOfType<TransformComponent>(exVector2(390.0f, 590.0f));
+	mBottomBoarderGameBoard->AddComponentOfType<BoxRenderComponent>(800.0f, 10.0f);
+	mBottomBoarderGameBoard->AddComponentOfType<BoxColliderComponent>(800.0f, 10.0f, exVector2({ 0.0f, 0.0f }), true, false);
 		// box collider will collide with circle onship
 
-	//Character2 = std::make_shared<Actor>();
-	//Character2->AddComponentOfType<TransformComponent>(exVector2(25.0f, 25.0f)); // this effects the size of the box.
-	//Character2->AddComponentOfType<BoxRenderComponent>(250.0f, 250.0f, exColor({0, 255, 125, 255}), exVector2(0.0f, 0.0f), 1);
-	//Character2->AddComponentOfType<CircleColliderComponent>(50.0f, exVector2({ 0.0f, 0.0f }), true);
+	Character2 = std::make_shared<Actor>();
+	Character2->AddComponentOfType<TransformComponent>(exVector2(200.0f, 150.0f)); // this effects the size of the box.
+	Character2->AddComponentOfType<CircleRenderComponent>(50.0f, exColor({0, 255, 125, 255}), exVector2(0.0f, 0.0f));
+	Character2->AddComponentOfType<CircleColliderComponent>(50.0f, exVector2({ 3.0f, 3.0f }), false);
 
 	mShip = std::make_shared<Ship>("Pirate Ship", exColor({255,100,100,255}), exVector2(200.0f, 300.0f), exVector2(0.0f, 0.0f));
 	mShip->AddComponentOfType<MovementComponent>(mShip->mShipInitialVelocity);
+
+	/*mRockSpawner = std::make_shared<RockSpawner>("RockSpawner", exColor({ 255,100,100,255 }), exVector2(200.0f, 200.0f), exVector2(0.0f, 0.0f), 2, 600, 600);
+	mRockSpawner->AddComponentOfType<BoxRenderComponent>(10.0f, 20.0f);
+	mRockSpawner->AddComponentOfType<TransformComponent>(exVector2(25.0f, 25.0f));*/
+
+	//mRockSpawner->BeginPlay();
 	mShip->BeginPlay();
 
 	
@@ -212,11 +221,27 @@ void MyGame::Run( float fDeltaT )
 
 	//mEngine->DrawText( mFontID, mTextPosition, "Yung Hitro", c, 0 );
 	UpdateTimer(fDeltaT);
+
+	//std::shared_ptr<Rock> newRock = mRockSpawner->SpawnRock();
+	//mRockSpawner->TickSpawnRock(fDeltaT);
+
+
 	std::ostringstream timeToOneDecimal;
 	timeToOneDecimal << std::fixed << std::setprecision(1) << mTimeElasped;
 	std::string currentTime = "Time :" + timeToOneDecimal.str();
 
 	mEngine->DrawText( mFontID, mTextPosition, currentTime.c_str(), c, 0);
+
+	if (mShip->isGameOver == true)
+	{
+		mEngine->DrawText(mFontID, mGameOverPosition, "Game Over", c, 0);
+	}
+
+	int timeToInt = (int)mTimeElasped;
+	if (timeToInt >= 20)
+	{
+		mEngine->DrawText(mFontID, mGameOverPosition, "you win", c, 0);
+	}
 
 	//mStateMachine->Update(nullptr);
 

@@ -33,6 +33,7 @@ bool BoxColliderComponent::IsCollisionDetected(std::weak_ptr<PhysicsComponent> o
 
         return otherComponent.lock()->IsCollisionDetectedWithBox(Self);
     }
+    return false;
 }
 
 bool BoxColliderComponent::IsCollisionDetectedWithBox(std::weak_ptr<BoxColliderComponent> otherComponent)

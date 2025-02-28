@@ -6,7 +6,7 @@
 //
 
 #pragma once
-
+#include <cmath>
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 
@@ -59,6 +59,31 @@ struct exVector2
 		Result.y = y / OtherFloat;
 		return Result;
 	}*/
+
+	// Needed for velocity projection in collision response
+	float Dot(const exVector2& OtherVector) const {
+		return (x * OtherVector.x) + (y * OtherVector.y);
+	}
+
+	// Length of the vector for distance calculations
+	float Length() const {
+		return std::sqrt(x * x + y * y);
+	}
+
+	// returns a new unit vector
+	exVector2 Normalize() const {
+		float length = Length();
+		return length > 0 ? exVector2{ x / length, y / length } : exVector2{ 0, 0 };
+	}
+
+	// Normalize the vector in place (modifies the existing vector)
+	void NormalizeInPlace() {
+		float length = Length();
+		if (length > 0) {
+			x /= length;
+			y /= length;
+		}
+	}
 };
 
 //-----------------------------------------------------------------

@@ -12,9 +12,15 @@ mShipInitialVelocity(velocity)
 void Ship::BeginPlay()
 {
 	AddComponentOfType<TransformComponent>(mShipStartingPosition);
-	AddComponentOfType<BoxRenderComponent>(200.0f, 50.0f, mShipColor);
-	AddComponentOfType<CircleRenderComponent>(50.0f, mShipColor, exVector2(0.0f, -25.0f));
-	std::tuple<std::shared_ptr<CircleColliderComponent>, bool, String> Result = AddComponentOfType<CircleColliderComponent>(100.0f, mShipInitialVelocity);
+
+	//add box
+	//AddComponentOfType<BoxRenderComponent>(100.0f, 20.0f, mShipColor, exVector2{80.0f,0.0f});
+	//AddComponentOfType<BoxColliderComponent>(100.0f, 20.0f, mShipInitialVelocity, false, false);
+
+
+	AddComponentOfType<CircleRenderComponent>(25.0f, mShipColor, exVector2(0.0f, 0.0f));
+
+	std::tuple<std::shared_ptr<CircleColliderComponent>, bool, String> Result = AddComponentOfType<CircleColliderComponent>(25.0f, mShipInitialVelocity);
 	std::shared_ptr<CircleColliderComponent> ColliderComp = std::get<0>(Result);
 
 	if (ColliderComp) 
@@ -29,5 +35,6 @@ void Ship::OnShipCollided(std::weak_ptr<Actor> HitActor, const exVector2& HitPos
 	if (std::shared_ptr<CircleRenderComponent> CircleRenderComp = FindComponentOfType<CircleRenderComponent>()) 
 	{
 		CircleRenderComp->SetColor(exColor({ 15,255,60,255 }));
+		isGameOver = true;
 	}
 }

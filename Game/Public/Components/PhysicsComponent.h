@@ -25,6 +25,7 @@ public:
 	void StopListeningForCollision(CollisionEventSignature& delegateToRemove);
 
 	virtual void CollisionResolution(); // move back later
+	virtual void CircleCollisionResolution(std::weak_ptr<Actor>& firstActor, std::weak_ptr<Actor>& secondActor);
 	virtual bool IsCollisionDetectedWithCircle(std::weak_ptr<CircleColliderComponent> otherComponent) = 0;
 	virtual bool IsCollisionDetectedWithBox(std::weak_ptr<BoxColliderComponent> otherComponent) = 0;
 
@@ -44,7 +45,8 @@ protected:
 	
 	virtual bool IsCollisionDetected(std::weak_ptr<PhysicsComponent> otherComponent) = 0;
 
-	
+	bool DoBothHaveCircleCollider(const std::weak_ptr<Actor> firstActor, const std::weak_ptr<Actor> otherActor);
+
 	void BroadcastCollisionEvents(std::weak_ptr<Actor>& otherActor, const exVector2 hitLocation);
 	
 	//virtual bool IsCollisionDetectedWithBox(std::weak_ptr<BoxColliderComponent> otherComponent) const = 0;

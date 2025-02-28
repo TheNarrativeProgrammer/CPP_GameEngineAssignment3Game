@@ -27,6 +27,7 @@ bool CircleColliderComponent::IsCollisionDetected(std::weak_ptr<PhysicsComponent
 
 		return otherComponent.lock()->IsCollisionDetectedWithCircle(Self);
 	}
+	return false;
 }
 
 bool CircleColliderComponent::IsCollisionDetectedWithCircle(std::weak_ptr<CircleColliderComponent> otherComponent)

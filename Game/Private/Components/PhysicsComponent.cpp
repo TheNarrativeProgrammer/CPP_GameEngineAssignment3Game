@@ -50,6 +50,17 @@ void PhysicsComponent::StopListeningForCollision(CollisionEventSignature& delega
         }), mCollisionEvents.end());
 }
 
+bool PhysicsComponent::DoBothHaveCircleCollider(const std::weak_ptr<Actor> firstActor, const std::weak_ptr<Actor> otherActor)
+{
+    if (firstActor.lock()->FindComponentOfType<CircleColliderComponent>() != nullptr 
+        && otherActor.lock()->FindComponentOfType<CircleColliderComponent>() != nullptr
+        && !firstActor.expired() && !otherActor.expired())
+    {
+        return true;
+    }
+    return false;
+}
+
 void PhysicsComponent::BroadcastCollisionEvents(std::weak_ptr<Actor>& otherActor, const exVector2 hitLocation)
 { // this will say in the phys comp "hey i collided with this thing" and whoever is listening will get the events back. 
     for (CollisionEventSignature& event : mCollisionEvents) 
@@ -67,6 +78,34 @@ void PhysicsComponent::CollisionResolution()
 {
     if (mIsStatic) return;
     SetVelocity(mVelocity * -1.0f);
+}
+
+void PhysicsComponent::CircleCollisionResolution(std::weak_ptr<Actor>& firstActor, std::weak_ptr<Actor>& secondActor)
+{
+    exVector2 selfCenterPos = firstActor.lock()->FindComponentOfType<TransformComponent>()->GetLocation();
+    exVector2 otherCenterPos = secondActor.lock()->FindComponentOfType<TransformComponent>()->GetLocation();
+
+    exVector2 otherVelocity = secondActor.lock()->FindComponentOfType<PhysicsComponent>()->GetVelocity();
+
+
+    exVector2 normal = (otherCenterPos - selfCenterPos).Normalize();
+
+    float v1n = mVelocity.Dot(normal);
+    float v2n = otherVelocity.Dot(normal);
+
+    float v1n_final = v2n;
+    float v2n_final = v1n;
+
+    exVector2 tangent = exVector2{ -normal.y, normal.x };
+
+    float v1t = mVelocity.Dot(tangent);
+    float v2t = otherVelocity.Dot(tangent);
+
+
+    mVelocity = (normal * v1n_final);
+    otherVelocity = (normal * v2n_final);
+    firstActor.lock()->FindComponentOfType<PhysicsComponent>()->SetVelocity(mVelocity);
+    secondActor.lock()->FindComponentOfType<PhysicsComponent>()->SetVelocity(otherVelocity);
 }
 
 void PhysicsComponent::SetVelocity(const exVector2 inVelocity)

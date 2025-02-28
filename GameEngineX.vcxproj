@@ -167,6 +167,8 @@
     <ClInclude Include="Game\Public\Singletons\InputState.h" />
     <ClInclude Include="Game\Public\Singletons\InputManager.h" />
     <ClInclude Include="Game\Public\Components\MovementComponent.h" />
+    <ClInclude Include="Game\Public\Actors\Rock.h" />
+    <ClInclude Include="Game\Public\Actors\RockSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Private\Components\BoxColliderComponent.cpp" />
@@ -188,6 +190,8 @@
     <ClCompile Include="Game\Private\Singletons\InputState.cpp" />
     <ClCompile Include="Game\Private\Singletons\InputManager.cpp" />
     <ClCompile Include="Game\Private\Components\MovementComponent.cpp" />
+    <ClCompile Include="Game\Private\Actors\Rock.cpp" />
+    <ClCompile Include="Game\Private\Actors\RockSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Out\EngineX.lib" />
